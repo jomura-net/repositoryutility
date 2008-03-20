@@ -20,12 +20,18 @@
 
 <xsl:template match="logentry">
   <item>
-    <title>r<xsl:value-of select="@revision" />: <xsl:value-of select="msg"/>
+    <title>r<xsl:value-of select="@revision" />: 
+      <xsl:call-template name="GetFirstRow">
+        <xsl:with-param name="value"><xsl:value-of select="msg" /></xsl:with-param>
+      </xsl:call-template>
     </title>
     <link></link>
     <description><xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+      <xsl:call-template name="ReplaceLineSeparator">
+        <xsl:with-param name="value"><xsl:value-of select="msg" /></xsl:with-param>
+      </xsl:call-template><br />
       <xsl:for-each select="paths/path">
-        <xsl:value-of select="@action"/><xsl:text> </xsl:text>
+        [<xsl:value-of select="@action"/>]<xsl:text> </xsl:text>
         <xsl:value-of select="."/><xsl:text disable-output-escaping="yes">&lt;br /&gt;
 </xsl:text>
       </xsl:for-each>
@@ -37,6 +43,34 @@
       <xsl:value-of select="author"/>
     </author>
   </item>
+</xsl:template>
+
+<xsl:template name="GetFirstRow">
+    <xsl:param name="value"/>
+    <xsl:choose>
+        <xsl:when test="contains($value, '&#xA;')">
+            <xsl:value-of select="substring-before($value, '&#xA;')"/>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:value-of select="$value"/>
+        </xsl:otherwise>
+    </xsl:choose>
+</xsl:template>
+
+<xsl:template name="ReplaceLineSeparator">
+    <xsl:param name="value"/>
+    <xsl:choose>
+        <xsl:when test="contains($value, '&#xA;')">
+            <xsl:value-of select="substring-before($value, '&#xA;')"/>
+            <br/>
+            <xsl:call-template name="ReplaceLineSeparator">
+                <xsl:with-param name="value" select="substring-after($value, '&#xA;')"/>
+            </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:value-of select="$value"/>
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>
