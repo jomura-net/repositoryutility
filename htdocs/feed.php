@@ -17,7 +17,7 @@
 	$xml->load($logfilename);
 
 	$xsl = new DOMDocument;
-	$xsl->load('svnlog2rss.xsl');
+	$xsl->load("http://jomora.net/svnlog/svnlog2rss.xsl.php?repos=".$_GET['repos']);
 
 	// •ÏŠ·‚Ìİ’è‚ğs‚¤
 	$proc = new XSLTProcessor;
