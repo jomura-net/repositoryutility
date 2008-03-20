@@ -4,7 +4,7 @@
 		return;
 	}
 
-	$logfilename = 'svnlog_'.$_GET['repos'].'.xml';
+	$logfilename = $_GET['repos'].'.xml';
 	if(!file_exists($logfilename)) {
 		header("HTTP/1.1 404 Not Found");
 		return;
