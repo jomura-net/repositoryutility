@@ -5,10 +5,10 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<xsl:output encoding="UTF-8" />
+<xsl:output encoding="utf-8" indent="yes" />
 
 <xsl:template match="/log">
-  <rss version="2.0" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <rss version="2.0">
     <channel>
       <title>Subversion log(<?php echo $_GET['repos'] ?>)</title>
       <link>http://jomora.net/svnlog/feed.php?repos=<?php echo $_GET['repos'] ?></link>
@@ -29,7 +29,7 @@
       </xsl:call-template>
     </title>
     <link></link>
-    <description><xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+    <description><xsl:text disable-output-escaping="yes">&lt;![CDATA[ </xsl:text>
       <xsl:call-template name="ReplaceLineSeparator">
         <xsl:with-param name="value"><xsl:value-of select="msg" /></xsl:with-param>
       </xsl:call-template><br />
@@ -38,7 +38,7 @@
         <xsl:value-of select="."/><xsl:text disable-output-escaping="yes">&lt;br /&gt;
 </xsl:text>
       </xsl:for-each>
-<xsl:text disable-output-escaping="yes">]]&gt;</xsl:text></description>
+<xsl:text disable-output-escaping="yes"> ]]&gt;</xsl:text></description>
     <pubDate>
       <xsl:value-of select="date"/>
     </pubDate>
